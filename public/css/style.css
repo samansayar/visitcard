@@ -1,0 +1,42 @@
+@font-face {
+  font-family: "estedad";
+  src: url('../fonts/Estedad-ExtraLight.ttf');
+}
+
+@font-face {
+  font-family: "estedad-bold";
+  src: url('../fonts/Estedad-Black.ttf');
+}
+
+@font-face {
+  font-family: "estedad-bolish";
+  src: url('../fonts/estedad/Estedad[wght\,kshd].ttf');
+}
+@font-face {
+  font-family: "estedad-bolisher";
+  src: url('../fonts/Estedad-ExtraBold.ttf');
+}
+
+* {
+  direction: rtl;
+  font-family: 'estedad-bolish';
+}
+[x-cloak] {
+    display: none;
+  }
+
+  .svg-icon {
+    width: 1em;
+    height: 1em;
+  }
+
+  .svg-icon path,
+  .svg-icon polygon,
+  .svg-icon rect {
+    fill: #333;
+  }
+
+  .svg-icon circle {
+    stroke: #4691f6;
+    stroke-width: 1;
+  }
