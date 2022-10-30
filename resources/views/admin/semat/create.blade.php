@@ -11,11 +11,8 @@
                     <div class="grid w-full grid-cols-2 gap-4 mt-4 transition-all duration-200">
                         <div class="relative block">
                             <x-label for="name_semat" value="نام سمت را انتخاب کنید" />
-                            <select id="state" name="name_semat" x-model="name_semat"
-                                class="bg-gray-50 px-10 !appearance-none border border-gray-300 text-sm rounded-lg text-gray-600 focus:ring-indigo-500 focus:border-indigo-500 focus:outeline-none  block w-full p-2 dark:bg-gray-700 dark-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 focus:outline-none dark:focus:border-indigo-500 disabled:bg-gray-200 disabled:text-gray-600">
-                                <option value="کارشناس فروش">کارشناس فروش</option>
-                                <option value="کارشناس فروش">کارشناس فروش</option>
-                            </select>
+                            <x-input id="phone" class="block mt-1 w-full" type="text" name="name_semat"
+                            value="{{ old('name_semat') }}" />
                         </div>
                         <div class="relative block">
                             <x-label for="sort" value="ترتیب را وارد کنید" />
@@ -44,7 +41,7 @@
                 <div class="mt-6">
                     <x-auth-validation-errors class="mb-4" :errors="$errors" />
                 </div>
-                {{-- @if (session('success')) --}}
+                @if (session('success'))
                 <div class="mt-6 relative" x-show="handlerMessage" x-collapse.duration.800ms>
                     <button @click="handlerMessage = ! handlerMessage"
                         class="w-10 h-10 flex justify-center items-center top-4 right-4 rounded-full absolute">
@@ -66,7 +63,7 @@
                         </div>
                     </div>
                 </div>
-                {{-- @endif --}}
+                @endif
             </div>
         </div>
 </x-app-layout>

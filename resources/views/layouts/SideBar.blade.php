@@ -6,8 +6,6 @@
     </div>
     @if (auth()->user()->name === 'admin')
         <div class='mt-10 divide-y-2 flex flex-col divide-gray-100'>
-
-
             <a href="{{ route('dashboard') }}"
                 class='py-2 px-2 hover:shadow-md shadow-gray-300 transition-all flex justify-between items-center cursor-pointer duration-75 hover:bg-indigo-600 rounded-md hover:text-indigo-100 text-gray-600 w-full'>
                 <div class="flex items-center">
@@ -20,7 +18,6 @@
                     <div class='capitalize mr-4 text-sm'>داشبورد</div>
                 </div>
             </a>
-
             <div x-data='{ open :false }' class="relative">
                 <div @click="open = !open"
                     class='py-3 px-2 hover:shadow-md shadow-gray-300 flex justify-between items-center cursor-pointer duration-75 hover:bg-indigo-600 rounded-md hover:text-white text-gray-600 w-full'>
@@ -42,7 +39,7 @@
                     </div>
                 </div>
 
-                <div x-show='open' x-collapse
+                <div x-show='open' x-transition.duration.300ms
                     class="bg-gray-100 rounded-lg w-full py-1 divide-y-2 flex flex-col divide-gray-100">
                     <a href="{{ route('admin.users.create') }}"
                         class='py-2 px-2 hover:shadow-md shadow-gray-300 transition-all flex justify-between items-center cursor-pointer duration-75 hover:bg-indigo-600 rounded-md text-gray-600 hover:text-indigo-100 w-full'>
@@ -74,8 +71,13 @@
                 <div @click="open = !open"
                     class='py-3 px-2 hover:shadow-md shadow-gray-300 flex justify-between items-center cursor-pointer duration-75 hover:bg-indigo-600 rounded-md hover:text-white text-gray-600 w-full'>
                     <div class="flex items-center">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>
-                        <div class='capitalize mr-4 text-sm'>مدیریت شهر و استان</div>
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01">
+                            </path>
+                        </svg>
+                        <div class='capitalize mr-4 text-sm'>مدیریت درخواست ها</div>
                     </div>
                     <div>
                         <svg :class="open ? 'rotate-180' : 'rotate-0'" class="w-5 transition duration-75 h-5"
@@ -86,7 +88,47 @@
                     </div>
                 </div>
 
-                <div x-show='open' x-collapse
+                <div x-show='open' x-transition.duration.300ms
+                    class="bg-gray-100 rounded-lg w-full py-1 divide-y-2 flex flex-col divide-gray-100">
+                    <a href="{{ route('admin.list-requests') }}"
+                        class='py-2 px-2 hover:shadow-md shadow-gray-300 transition-all flex justify-between items-center cursor-pointer duration-75 hover:bg-indigo-600 rounded-md text-gray-600 hover:text-indigo-100 w-full'>
+                        <div class="flex items-center">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13">
+                                </path>
+                            </svg>
+                            <div class='capitalize mr-4 text-sm'>لیست کلی درخواست ها</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div x-data='{ open :false }' class="relative">
+                <div @click="open = !open"
+                    class='py-3 px-2 hover:shadow-md shadow-gray-300 flex justify-between items-center cursor-pointer duration-75 hover:bg-indigo-600 rounded-md hover:text-white text-gray-600 w-full'>
+                    <div class="flex items-center">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path>
+                        </svg>
+                        <div class='capitalize mr-4 text-sm'>مدیریت شهر و استان</div>
+                    </div>
+                    <div>
+                        <svg :class="open ? 'rotate-180' : 'rotate-0'" class="w-5 transition duration-75 h-5"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
+                    </div>
+                </div>
+
+                <div x-show='open' x-transition.duration.300ms
                     class="bg-gray-100 rounded-lg w-full py-1 divide-y-2 flex flex-col divide-gray-100">
                     <a href="{{ route('admin.city.create') }}"
                         class='py-2 px-2 hover:shadow-md shadow-gray-300 transition-all flex justify-between items-center cursor-pointer duration-75 hover:bg-indigo-600 rounded-md text-gray-600 hover:text-indigo-100 w-full'>
@@ -114,7 +156,6 @@
                     </a>
                 </div>
             </div>
-
             <div x-data='{ open :false }' class="relative">
                 <div @click="open = !open"
                     class='py-3 px-2 hover:shadow-md shadow-gray-300 flex justify-between items-center cursor-pointer duration-75 hover:bg-indigo-600 rounded-md hover:text-white text-gray-600 w-full'>
@@ -138,7 +179,7 @@
                     </div>
                 </div>
 
-                <div x-show='open' x-collapse
+                <div x-show='open' x-transition.duration.300ms
                     class="bg-gray-100 rounded-lg w-full py-1 divide-y-2 flex flex-col divide-gray-100">
                     <a href="{{ route('admin.form.create') }}"
                         class='py-2 px-2 hover:shadow-md shadow-gray-300 transition-all flex justify-between items-center cursor-pointer duration-75 hover:bg-indigo-600 rounded-md text-gray-600 hover:text-indigo-100 w-full'>
@@ -166,7 +207,6 @@
                     </a>
                 </div>
             </div>
-
             <div x-data='{ open :false }' class="relative">
                 <div @click="open = !open"
                     class='py-3 px-2 hover:shadow-md shadow-gray-300 flex justify-between items-center cursor-pointer duration-75 hover:bg-indigo-600 rounded-md hover:text-white text-gray-600 w-full'>
@@ -190,7 +230,7 @@
                     </div>
                 </div>
 
-                <div x-show='open' x-collapse
+                <div x-show='open' x-transition.duration.300ms
                     class="bg-gray-100 rounded-lg w-full py-1 divide-y-2 flex flex-col divide-gray-100">
                     <a href="{{ route('admin.semat.create') }}"
                         class='py-2 px-2 hover:shadow-md shadow-gray-300 transition-all flex justify-between items-center cursor-pointer duration-75 hover:bg-indigo-600 rounded-md text-gray-600 hover:text-indigo-100 w-full'>
@@ -218,7 +258,6 @@
                     </a>
                 </div>
             </div>
-
             <div x-data='{ open :false }' class="relative">
                 <div @click="open = !open"
                     class='py-3 px-2 hover:shadow-md shadow-gray-300 flex justify-between items-center cursor-pointer duration-75 hover:bg-indigo-600 rounded-md hover:text-white text-gray-600 w-full'>
@@ -241,7 +280,7 @@
                     </div>
                 </div>
 
-                <div x-show='open' x-collapse
+                <div x-show='open' x-transition.duration.300ms
                     class="bg-gray-100 rounded-lg w-full py-1 divide-y-2 flex flex-col divide-gray-100">
                     <a href="{{ route('admin.accessbility.create') }}"
                         class='py-2 px-2 hover:shadow-md shadow-gray-300 transition-all flex justify-between items-center cursor-pointer duration-75 hover:bg-indigo-600 rounded-md text-gray-600 hover:text-indigo-100 w-full'>
@@ -269,7 +308,6 @@
                     </a>
                 </div>
             </div>
-
             <div x-data='{ open :false }' class="relative">
                 <div @click="open = !open"
                     class='py-3 px-2 hover:shadow-md shadow-gray-300 flex justify-between items-center cursor-pointer duration-75 hover:bg-indigo-600 rounded-md hover:text-white text-gray-600 w-full'>
@@ -293,7 +331,7 @@
                     </div>
                 </div>
 
-                <div x-show='open' x-collapse
+                <div x-show='open' x-transition.duration.300ms
                     class="bg-gray-100 rounded-lg w-full py-1 divide-y-2 flex flex-col divide-gray-100">
                     <a href="{{ route('admin.shop-titles.create') }}"
                         class='py-2 px-2 hover:shadow-md shadow-gray-300 transition-all flex justify-between items-center cursor-pointer duration-75 hover:bg-indigo-600 rounded-md text-gray-600 hover:text-indigo-100 w-full'>
@@ -321,7 +359,6 @@
                     </a>
                 </div>
             </div>
-
             <div x-data='{ open :false }' class="relative">
                 <div @click="open = !open"
                     class='py-3 px-2 hover:shadow-md shadow-gray-300 flex justify-between items-center cursor-pointer duration-75 hover:bg-indigo-600 rounded-md hover:text-white text-gray-600 w-full'>
@@ -345,7 +382,7 @@
                     </div>
                 </div>
 
-                <div x-show='open' x-collapse
+                <div x-show='open' x-transition.duration.300ms
                     class="bg-gray-100 rounded-lg w-full py-1 divide-y-2 flex flex-col divide-gray-100">
                     <a href="{{ route('admin.visit-titles.create') }}"
                         class='py-2 px-2 hover:shadow-md shadow-gray-300 transition-all flex justify-between items-center cursor-pointer duration-75 hover:bg-indigo-600 rounded-md text-gray-600 hover:text-indigo-100 w-full'>
@@ -373,6 +410,14 @@
                     </a>
                 </div>
             </div>
+
+            <a href="{{ route('admin.setting.create') }}"
+                class='py-2 px-2 hover:shadow-md shadow-gray-300 transition-all flex justify-between items-center cursor-pointer duration-75 hover:bg-indigo-600 rounded-md hover:text-indigo-100 text-gray-600 w-full'>
+                <div class="flex items-center">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    <div class='capitalize mr-4 text-sm'>تنظیمات</div>
+                </div>
+            </a>
         </div>
     @else
         <div class='mt-10 divide-y-2 flex flex-col divide-gray-100'>
@@ -426,7 +471,7 @@
                     </div>
                 </div>
 
-                <div x-show='open' x-collapse
+                <div x-show='open' x-transition.duration.300ms
                     class="bg-gray-100 rounded-lg w-full py-1 divide-y-2 flex flex-col divide-gray-100">
                     <a href="{{ route('shop.create') }}"
                         class='py-2 px-2 hover:shadow-md shadow-gray-300 transition-all flex justify-between items-center cursor-pointer duration-75 hover:bg-indigo-600 rounded-md text-gray-600 hover:text-indigo-100 w-full'>
@@ -478,7 +523,7 @@
                     </div>
                 </div>
 
-                <div x-show='open' x-collapse
+                <div x-show='open' x-transition.duration.300ms
                     class="bg-gray-100 rounded-lg w-full py-1 divide-y-2 flex flex-col divide-gray-100">
                     <a href="{{ route('member.create') }}"
                         class='py-2 px-2 hover:shadow-md shadow-gray-300 transition-all flex justify-between items-center cursor-pointer duration-75 hover:bg-indigo-600 rounded-md text-gray-600 hover:text-indigo-100 w-full'>

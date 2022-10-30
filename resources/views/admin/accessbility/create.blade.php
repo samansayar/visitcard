@@ -5,7 +5,7 @@
         <div class="lg:grid grid-cols-12 gap-4 w-full relative">
             <div class="lg:col-span-7 w-full relative rounded-md">
 
-                <form method="post" action="{{ route('admin.city.store') }}"
+                <form method="post" action="{{ route('admin.accessbility.store') }}"
                     class="lg:col-span-6 w-full relative rounded-md">
                     @csrf
                     <div class="grid w-full grid-cols-2 gap-4 mt-4 transition-all duration-200">
@@ -40,7 +40,7 @@
                 <div class="mt-6">
                     <x-auth-validation-errors class="mb-4" :errors="$errors" />
                 </div>
-                {{-- @if (session('success')) --}}
+                @if (session('success'))
                 <div class="mt-6 relative" x-show="handlerMessage" x-collapse.duration.800ms>
                     <button @click="handlerMessage = ! handlerMessage"
                         class="w-10 h-10 flex justify-center items-center top-4 right-4 rounded-full absolute">
@@ -62,7 +62,7 @@
                         </div>
                     </div>
                 </div>
-                {{-- @endif --}}
+                @endif
             </div>
         </div>
 </x-app-layout>

@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">ایجاد فرم</x-slot>
-    <div x-data="{ dataCity: [], handlerMessage: true, modalAddfeild: false, feild: [] }" x-init="dataCity = await (await fetch('https://iran-locations-api.vercel.app/api/v1/states')).json()">
+    <div x-data="{ handlerMessage: true, show_in_cardvisit: '', modalAddfeild: false, feild: [] }">
         {{-- TODO =>  CODEING HERE.... --}}
         <div class="lg:grid grid-cols-12 gap-4 w-full relative">
             <div class="lg:col-span-7 w-full relative rounded-md">
@@ -10,65 +10,72 @@
                     @csrf
                     <div class="grid w-full grid-cols-2 gap-4 mt-4 transition-all duration-200">
                         <div class="relative block">
-                            <x-label for="type_shop" value="عنوان را انتخاب کنید" />
-                            <select id="type_shop" name="type_shop" autofocus
+                            <x-label for="title_shop" value="عنوان را انتخاب کنید" />
+                            <select id="title_shop" name="title_shop" autofocus
                                 class="bg-gray-50 px-10 !appearance-none border border-gray-300 text-sm rounded-lg text-gray-600 focus:ring-indigo-500 focus:border-indigo-500 focus:outeline-none  block w-full p-2 dark:bg-gray-700 dark-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 focus:outline-none dark:focus:border-indigo-500 disabled:bg-gray-200 disabled:text-gray-600">
                                 <option value="">انتخاب عنوان</option>
-                                <option value="فروشگاه" {{ old('type_shop') == 'فروشگاه' ? 'selected' : '' }}>فروشگاه
+                                <option value="فروشگاه" {{ old('title_shop') == 'فروشگاه' ? 'selected' : '' }}>فروشگاه
                                 </option>
-                                <option value="الکتریکی" {{ old('type_shop') == 'الکتریکی' ? 'selected' : '' }}>الکتریکی
+                                <option value="الکتریکی" {{ old('title_shop') == 'الکتریکی' ? 'selected' : '' }}>
+                                    الکتریکی
                                 </option>
-                                <option value="روشنایی" {{ old('type_shop') == 'روشنایی' ? 'selected' : '' }}>روشنایی
+                                <option value="روشنایی" {{ old('title_shop') == 'روشنایی' ? 'selected' : '' }}>روشنایی
                                 </option>
-                                <option value="لوازم برقی" {{ old('type_shop') == 'لوازم برقی' ? 'selected' : '' }}>
+                                <option value="لوازم برقی" {{ old('title_shop') == 'لوازم برقی' ? 'selected' : '' }}>
                                     لوازم برقی</option>
-                                <option value="الکترو" {{ old('type_shop') == 'الکترو' ? 'selected' : '' }}>الکترو
+                                <option value="الکترو" {{ old('title_shop') == 'الکترو' ? 'selected' : '' }}>الکترو
                                 </option>
-                                <option value="نمایشگاه" {{ old('type_shop') == 'نمایشگاه' ? 'selected' : '' }}>نمایشگاه
+                                <option value="نمایشگاه" {{ old('title_shop') == 'نمایشگاه' ? 'selected' : '' }}>
+                                    نمایشگاه
                                 </option>
-                                <option value="کالای برقی" {{ old('type_shop') == 'کالای برقی' ? 'selected' : '' }}>
+                                <option value="کالای برقی" {{ old('title_shop') == 'کالای برقی' ? 'selected' : '' }}>
                                     کالای برقی</option>
                                 <option value="کالای ساختمانی"
-                                    {{ old('type_shop') == 'کالای ساختمانی' ? 'selected' : '' }}>کالای ساختمانی</option>
-                                <option value="صنایع و بازرگانی"
-                                    {{ old('type_shop') == 'صنایع و بازرگانی' ? 'selected' : '' }}>صنایع و بازرگانی
+                                    {{ old('title_shop') == 'کالای ساختمانی' ? 'selected' : '' }}>کالای ساختمانی
                                 </option>
-                                <option value="شرکت" {{ old('type_shop') == 'شرکت' ? 'selected' : '' }}>شرکت</option>
+                                <option value="صنایع و بازرگانی"
+                                    {{ old('title_shop') == 'صنایع و بازرگانی' ? 'selected' : '' }}>صنایع و بازرگانی
+                                </option>
+                                <option value="شرکت" {{ old('title_shop') == 'شرکت' ? 'selected' : '' }}>شرکت
+                                </option>
                             </select>
                         </div>
                         <div class="relative block">
-                            <x-label for="city" value="سطح دسترسی را وارد کنید" />
-                            <select id="city" name="city"
+                            <x-label for="access" value="سطح دسترسی را وارد کنید" />
+                            <select id="access" name="access"
                                 class="bg-gray-50 px-10 !appearance-none border border-gray-300 text-sm rounded-lg text-gray-600 focus:ring-indigo-500 focus:border-indigo-500 focus:outeline-none  block w-full p-2 dark:bg-gray-700 dark-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 focus:outline-none dark:focus:border-indigo-500 disabled:bg-gray-200 disabled:text-gray-600">
                                 <option value="نماینده">نماینده</option>
                             </select>
                         </div>
                         <div class="relative block">
-                            <x-label for="city" value="نمایش در ایجاد فروشگاه" />
-                            <select id="city" name="city"
+                            <x-label for="show_in_shop" value="نمایش در ایجاد فروشگاه" />
+                            <select id="show_in_shop" name="show_in_shop"
                                 class="bg-gray-50 px-10 !appearance-none border border-gray-300 text-sm rounded-lg text-gray-600 focus:ring-indigo-500 focus:border-indigo-500 focus:outeline-none  block w-full p-2 dark:bg-gray-700 dark-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 focus:outline-none dark:focus:border-indigo-500 disabled:bg-gray-200 disabled:text-gray-600">
                                 <option value="بله">بله</option>
                                 <option value="خیر">خیر</option>
                             </select>
                         </div>
                         <div class="relative block">
-                            <x-label for="city" value="نمایش در کارت ویزیت" />
-                            <select id="city" name="city"
+                            <x-label for="show_in_cardvisit" value="نمایش در کارت ویزیت" />
+                            <select id="show_in_cardvisit"
+                                x-model="show_in_cardvisit" name="show_in_cardvisit"
                                 class="bg-gray-50 px-10 !appearance-none border border-gray-300 text-sm rounded-lg text-gray-600 focus:ring-indigo-500 focus:border-indigo-500 focus:outeline-none  block w-full p-2 dark:bg-gray-700 dark-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 focus:outline-none dark:focus:border-indigo-500 disabled:bg-gray-200 disabled:text-gray-600">
-                                <option value="بله">بله</option>
                                 <option value="خیر">خیر</option>
+                                <option value="بله">بله</option>
                             </select>
                         </div>
-                        <div class="relative block">
-                            <x-label for="startdate" value="تاریخ شروع را وارد کنید" />
-                            <x-input id="startdate" data-jdp class="block mt-1 w-full" type="text" name="startdate"
-                                readonly value="{{ old('startdate') }}" />
-                        </div>
-                        <div class="relative block">
-                            <x-label for="endstart" value="تاریخ پایان را وارد کنید" />
-                            <x-input id="endstart" data-jdp class="block mt-1 w-full" type="text" name="endstart"
-                                readonly value="{{ old('endstart') }}" />
-                        </div>
+
+                            <div class="relative block" x-show="show_in_cardvisit === 'بله'" x-transition>
+                                <x-label for="startdate" value="تاریخ شروع را وارد کنید" />
+                                <x-input id="startdate" data-jdp class="block mt-1 w-full" type="text"
+                                    name="startdate" readonly value="{{ old('startdate') }}" />
+                            </div>
+                            <div class="relative block" x-show="show_in_cardvisit === 'بله'" x-transition>
+                                <x-label for="endstart" value="تاریخ پایان را وارد کنید" />
+                                <x-input id="endstart" data-jdp class="block mt-1 w-full" type="text"
+                                    name="endstart" readonly value="{{ old('endstart') }}" />
+                            </div>
+
 
                     </div>
                     <div x-show="modalAddfeild" class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title"
@@ -429,23 +436,7 @@
                                                 </div>
                                             </label>
                                         </li>
-                                        <li>
-                                            <input type="checkbox" x-model="feild" name="feild[]" id="datepicket"
-                                                value="datepicket" class="hidden peer">
-                                            <label for="datepicket"
-                                                class="inline-flex justify-center items-center p-4 w-full text-gray-600 bg-white rounded-lg border-2 border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-2 peer-checked:border-indigo-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
-                                                <div class="flex-col flex justify-center items-center">
-                                                    <svg class="w-6 h-6" fill="none" stroke="currentColor"
-                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2"
-                                                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
-                                                        </path>
-                                                    </svg>
-                                                    <div class="mt-3 w-full text-sm font-medium">Date Picker</div>
-                                                </div>
-                                            </label>
-                                        </li>
+
                                     </ul>
 
 
@@ -481,29 +472,30 @@
                 <div class="mt-6">
                     <x-auth-validation-errors class="mb-4" :errors="$errors" />
                 </div>
-                {{-- @if (session('success')) --}}
-                <div class="mt-6 relative" x-show="handlerMessage" x-collapse.duration.800ms>
-                    <button @click="handlerMessage = ! handlerMessage"
-                        class="w-10 h-10 flex justify-center items-center top-4 right-4 rounded-full absolute">
-                        <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
-                    <div class="bg-green-50 p-4 rounded-lg border border-gray-300">
-                        <div class="w-24 h-24 rounded-full bg-green-500/20 mx-auto flex justify-center items-center">
-                            <img src="{{ asset('images/party-popper.png') }}"
-                                class="w-full h-full object-cover p-1.5" />
-                            {{-- <lottie-player src="https://assets7.lottiefiles.com/packages/lf20_jbrw3hcz.json"
+                @if (session('success'))
+                    <div class="mt-6 relative" x-show="handlerMessage" x-collapse.duration.800ms>
+                        <button @click="handlerMessage = ! handlerMessage"
+                            class="w-10 h-10 flex justify-center items-center top-4 right-4 rounded-full absolute">
+                            <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                        <div class="bg-green-50 p-4 rounded-lg border border-gray-300">
+                            <div
+                                class="w-24 h-24 rounded-full bg-green-500/20 mx-auto flex justify-center items-center">
+                                <img src="{{ asset('images/party-popper.png') }}"
+                                    class="w-full h-full object-cover p-1.5" />
+                                {{-- <lottie-player src="https://assets7.lottiefiles.com/packages/lf20_jbrw3hcz.json"
                     background="transparent" speed="1" class="w-32"></lottie-player> --}}
-                        </div>
-                        <div class="text-center mt-6 text-sm w-full font-medium text-green-500">
-                            فرم جدید با موفقیت اضافه شد
+                            </div>
+                            <div class="text-center mt-6 text-sm w-full font-medium text-green-500">
+                                فرم جدید با موفقیت اضافه شد
+                            </div>
                         </div>
                     </div>
-                </div>
-                {{-- @endif --}}
+                @endif
             </div>
 
         </div>

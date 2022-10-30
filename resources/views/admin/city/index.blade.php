@@ -126,90 +126,191 @@
             </a>
         </div>
 
-        <div class="overflow-x-auto bg-white rounded-lg overflow-y-auto relative" style="height: 360px;">
-            @if (count($data) > 0)
-                <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped relative">
-                    <thead>
-                        <tr class="text-left">
-                            <template x-for="heading in headings">
-                                <th class="bg-gray-50 sticky top-0 border-b border-gray-200 px-6 py-3 text-center text-gray-600 font-medium uppercase text-xs"
-                                    x-text="heading.value" :x-ref="heading.key"
-                                    :class="{
-                                        [heading.key]: true
-                                    }">
-                                </th>
-                            </template>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($data as $item)
-                            <tr>
-                                <td class="border-dashed border-t border-gray-200 text-center">
-                                    <span
-                                        class="text-gray-700 justify-center px-2 py-3 flex items-center text-sm">{{ $item->id }}</span>
-                                </td>
-                                <td class="border-dashed border-t border-gray-200 text-center">
-                                    <span
-                                        class="text-gray-700 justify-center px-6 py-3 flex items-center text-sm">{{ $item->state }}</span>
-                                </td>
-                                <td class="border-dashed border-t border-gray-200 text-center">
-                                    <span
-                                        class="text-gray-700 justify-center px-6 py-3 flex items-center text-sm">{{ $item->city }}</span>
-                                </td>
-                                <td class="border-dashed border-t border-gray-200 text-center">
-                                    <span
-                                        class="text-gray-700 justify-center px-6 py-3 flex items-center text-sm">{{ $item->sort }}</span>
-                                </td>
-                                <td
-                                    class="border-dashed border-t border-gray-200 flex justify-center pt-1 items-end text-center">
-                                    {{-- Delete --}}
-                                    <form method="POST" action="{{ route('member.destroy', $item) }}">
-                                        @csrf
-                                        @method('delete')
-                                        <button title="حذف"
-                                            onclick="event.preventDefault(); this.closest('form').submit();"
-                                            class="p-1 w-7 flex justify-center items-center h-7 rounded-full bg-red-300/60 hover:scale-110 hover:bg-red-200 transition duration-150 text-red-600">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    stroke-width="1.5"
-                                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                                </path>
-                                            </svg>
-                                        </button>
-                                    </form>
+        <div class="lg:px-10" x-data="{ tab: 'city' }" id="tab_wrapper">
+            <!-- The tabs navigation -->
+            <nav class="flex space-x-1 rounded-xl bg-yellow-300 p-1">
+                <button :class="{ 'bg-white/60 backdrop-blur-sm': tab === 'state' }" @click.prevent="tab = 'state'"
+                    class="transition-all duration-300 w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-yellow-900 ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2"
+                    href="#">لیست استان</button>
+                <button :class="{ 'bg-white/60 backdrop-blur-sm': tab === 'city' }" @click.prevent="tab = 'city'"
+                    class="transition-all duration-300 w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-yellow-900 ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2"
+                    href="#">لیست شهر</button>
+            </nav>
 
-                                </td>
-                                <td class="border-dashed border-t border-gray-200 text-center">
-                                    <div class="w-full flex justify-around items-center">
-                                        {{-- Verify / Reject --}}
-                                        <form method="POST" action="{{ route('member.update', $item) }}"
-                                            class="flex items-center">
-                                            @csrf
-                                            @method('patch')
-                                            <button onclick="event.preventDefault(); this.closest('form').submit();"
-                                                title="فعال سازی / غیر فعال سازی"
-                                                class="p-0.5 w-8 flex justify-center items-center h-8 rounded-full hover:scale-110 hover:bg-indigo-200  transition duration-150 text-indigo-600">
-                                                <svg class="w-5 h-5" fill="none" stroke="currentColor"
-                                                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="1.5"
-                                                        d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z">
-                                                    </path>
-                                                </svg>
-                                            </button>
-                                            <p class="pr-1 text-xs text-indigo-500">
-                                                {{ $item->status ? 'فعال' : 'غیر فعال' }}</p>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            @else
-                <p class="my-10 text-gray-500 text-center w-full tetx-sm">چیزی یافت نشد</p>
-            @endif
+            <div x-show="tab === 'city'" class="my-5">
+                <div class="overflow-x-auto bg-white rounded-lg overflow-y-auto relative" style="height: 360px;">
+                    @if (count($data) > 0)
+                        <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped relative">
+                            <thead>
+                                <tr class="text-left">
+                                    <template x-for="heading in headings">
+                                        <th class="bg-gray-50 sticky top-0 border-b border-gray-200 px-6 py-3 text-center text-gray-600 font-medium uppercase text-xs"
+                                            x-text="heading.value" :x-ref="heading.key"
+                                            :class="{
+                                                [heading.key]: true
+                                            }">
+                                        </th>
+                                    </template>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($data as $item)
+                                    <tr>
+                                        <td class="border-dashed border-t border-gray-200 text-center">
+                                            <span
+                                                class="text-gray-700 justify-center px-2 py-3 flex items-center text-sm">{{ $item->id }}</span>
+                                        </td>
+                                        <td class="border-dashed border-t border-gray-200 text-center">
+                                            <span
+                                                class="text-gray-700 justify-center px-6 py-3 flex items-center text-sm">{{ $item->state }}</span>
+                                        </td>
+                                        <td class="border-dashed border-t border-gray-200 text-center">
+                                            <span
+                                                class="text-gray-700 justify-center px-6 py-3 flex items-center text-sm">{{ $item->city }}</span>
+                                        </td>
+                                        <td class="border-dashed border-t border-gray-200 text-center">
+                                            <span
+                                                class="text-gray-700 justify-center px-6 py-3 flex items-center text-sm">{{ $item->sort }}</span>
+                                        </td>
+                                        <td
+                                            class="border-dashed border-t border-gray-200 flex justify-center pt-1 items-end text-center">
+                                            {{-- Delete --}}
+                                            <form method="POST" action="{{ route('member.destroy', $item) }}">
+                                                @csrf
+                                                @method('delete')
+                                                <button title="حذف"
+                                                    onclick="event.preventDefault(); this.closest('form').submit();"
+                                                    class="p-1 w-7 flex justify-center items-center h-7 rounded-full bg-red-300/60 hover:scale-110 hover:bg-red-200 transition duration-150 text-red-600">
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="1.5"
+                                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                                                        </path>
+                                                    </svg>
+                                                </button>
+                                            </form>
+
+                                        </td>
+                                        <td class="border-dashed border-t border-gray-200 text-center">
+                                            <div class="w-full flex justify-around items-center">
+                                                {{-- Verify / Reject --}}
+                                                <form method="POST" action="{{ route('member.update', $item) }}"
+                                                    class="flex items-center">
+                                                    @csrf
+                                                    @method('patch')
+                                                    <button onclick="event.preventDefault(); this.closest('form').submit();"
+                                                        title="فعال سازی / غیر فعال سازی"
+                                                        class="p-0.5 w-8 flex justify-center items-center h-8 rounded-full hover:scale-110 hover:bg-indigo-200  transition duration-150 text-indigo-600">
+                                                        <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="1.5"
+                                                                d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z">
+                                                            </path>
+                                                        </svg>
+                                                    </button>
+                                                    <p class="pr-1 text-xs text-indigo-500">
+                                                        {{ $item->status ? 'فعال' : 'غیر فعال' }}</p>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @else
+                        <p class="my-10 text-gray-500 text-center w-full tetx-sm">چیزی یافت نشد</p>
+                    @endif
+                </div>
+            </div>
+            <div x-show="tab === 'state'" class="my-5">
+                <div class="overflow-x-auto bg-white rounded-lg overflow-y-auto relative" style="height: 360px;">
+                    @if (count($state) > 0)
+                        <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped relative">
+                            <thead>
+                                <tr class="text-left">
+                                    <template x-for="heading in headings">
+                                        <th class="bg-gray-50 sticky top-0 border-b border-gray-200 px-6 py-3 text-center text-gray-600 font-medium uppercase text-xs"
+                                            x-text="heading.value" :x-ref="heading.key"
+                                            :class="{
+                                                [heading.key]: true
+                                            }">
+                                        </th>
+                                    </template>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($state as $item)
+                                    <tr>
+                                        <td class="border-dashed border-t border-gray-200 text-center">
+                                            <span
+                                                class="text-gray-700 justify-center px-2 py-3 flex items-center text-sm">{{ $item->id }}</span>
+                                        </td>
+                                        <td class="border-dashed border-t border-gray-200 text-center">
+                                            <span
+                                                class="text-gray-700 justify-center px-6 py-3 flex items-center text-sm">{{ $item->state }}</span>
+                                        </td>
+                                        <td class="border-dashed border-t border-gray-200 text-center">
+                                            <span
+                                                class="text-gray-700 justify-center px-6 py-3 flex items-center text-sm">{{ $item->city }}</span>
+                                        </td>
+                                        <td class="border-dashed border-t border-gray-200 text-center">
+                                            <span
+                                                class="text-gray-700 justify-center px-6 py-3 flex items-center text-sm">{{ $item->sort }}</span>
+                                        </td>
+                                        <td
+                                            class="border-dashed border-t border-gray-200 flex justify-center pt-1 items-end text-center">
+                                            {{-- Delete --}}
+                                            <form method="POST" action="{{ route('member.destroy', $item) }}">
+                                                @csrf
+                                                @method('delete')
+                                                <button title="حذف"
+                                                    onclick="event.preventDefault(); this.closest('form').submit();"
+                                                    class="p-1 w-7 flex justify-center items-center h-7 rounded-full bg-red-300/60 hover:scale-110 hover:bg-red-200 transition duration-150 text-red-600">
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="1.5"
+                                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                                                        </path>
+                                                    </svg>
+                                                </button>
+                                            </form>
+
+                                        </td>
+                                        <td class="border-dashed border-t border-gray-200 text-center">
+                                            <div class="w-full flex justify-around items-center">
+                                                {{-- Verify / Reject --}}
+                                                <form method="POST" action="{{ route('member.update', $item) }}"
+                                                    class="flex items-center">
+                                                    @csrf
+                                                    @method('patch')
+                                                    <button onclick="event.preventDefault(); this.closest('form').submit();"
+                                                        title="فعال سازی / غیر فعال سازی"
+                                                        class="p-0.5 w-8 flex justify-center items-center h-8 rounded-full hover:scale-110 hover:bg-indigo-200  transition duration-150 text-indigo-600">
+                                                        <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="1.5"
+                                                                d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z">
+                                                            </path>
+                                                        </svg>
+                                                    </button>
+                                                    <p class="pr-1 text-xs text-indigo-500">
+                                                        {{ $item->status ? 'فعال' : 'غیر فعال' }}</p>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @else
+                        <p class="my-10 text-gray-500 text-center w-full tetx-sm">چیزی یافت نشد</p>
+                    @endif
+                </div>
+            </div>
         </div>
     </div>
 

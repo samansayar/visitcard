@@ -14,7 +14,7 @@ class VisitTitleController extends Controller
      */
     public function index()
     {
-        $data = [];
+        $data = VisitTitle::query()->get();
         return view('admin.visit_titles.index', compact('data'));
     }
 
@@ -36,7 +36,19 @@ class VisitTitleController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        $request->validate([
+            "title" => 'string|required',
+            "sort" => 'string|required',
+            "desc" => 'string',
+        ]);
+
+        $request->user()->VisitTitles()->create([
+            'title' => $request->title,
+            'sort' => $request->sort,
+            'desc' => $request->desc,
+        ]);
+
+        return back()->with('success', 'اطلاعات کاربر با موفقیت ثبت شد');
     }
 
     /**
@@ -81,6 +93,8 @@ class VisitTitleController extends Controller
      */
     public function destroy(VisitTitle $visitTitle)
     {
-        //
+        $visitTitle->delete();
+
+        return back()->with('success', 'عنوان حذف شد ');
     }
 }

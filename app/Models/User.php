@@ -29,17 +29,50 @@ class User extends Authenticatable
     {
         return $this->hasMany(Shop::class);
     }
+
     public function member()
     {
         return $this->hasMany(member::class);
     }
+
     public function city()
     {
         return $this->hasMany(city::class);
     }
+
     public function form()
     {
         return $this->hasMany(Form::class);
+    }
+
+    public function accessbiliy()
+    {
+        return $this->hasMany(accessbility::class);
+    }
+
+    public function semat()
+    {
+        return $this->hasMany(Semat::class);
+    }
+
+    public function ShopTitle()
+    {
+        return $this->hasMany(ShopTitle::class);
+    }
+
+    public function VisitTitles()
+    {
+        return $this->hasMany(VisitTitle::class);
+    }
+
+    public function setting()
+    {
+        return $this->hasMany(Setting::class);
+    }
+
+    public function State()
+    {
+        return $this->hasMany(State::class);
     }
 
     /**

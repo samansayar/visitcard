@@ -14,7 +14,7 @@ class AccessbilityController extends Controller
      */
     public function index()
     {
-        $data = [];
+        $data = accessbility::query()->get();
         return view('admin.accessbility.index', compact('data'));
     }
 
@@ -36,7 +36,19 @@ class AccessbilityController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        $request->validate([
+            "accessbiliy" => 'string|required',
+            "sort" => 'string|required',
+            "desc" => 'string|required',
+        ]);
+
+        $request->user()->accessbiliy()->create([
+            'accessbiliy' => $request->accessbiliy,
+            'sort' => $request->sort,
+            'desc' => $request->desc,
+        ]);
+
+        return redirect(route('admin.accessbility.index'))->with('success', 'اطلاعات کاربر با موفقیت ثبت شد');
     }
 
     /**

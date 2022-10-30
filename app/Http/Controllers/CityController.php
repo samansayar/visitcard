@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\city;
 use App\Models\Shop;
+use App\Models\State;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,7 +18,8 @@ class CityController extends Controller
     public function index()
     {
         $data = city::query()->get();
-        return view('admin.city.index', compact('data'));
+        $state = State::query()->get();
+        return view('admin.city.index', compact('data','state'));
     }
 
     /**
@@ -38,7 +40,19 @@ class CityController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            "state" => 'string|required',
+            "city" => 'string|required',
+            "sort" => 'string|required',
+        ]);
+
+        $request->user()->city()->create([
+            'state' => $request->state,
+            'city' => $request->city,
+            'sort' => $request->sort,
+        ]);
+
+        return back()->with('success', 'شهر با موفقیت ثبت شد');
     }
 
     /**

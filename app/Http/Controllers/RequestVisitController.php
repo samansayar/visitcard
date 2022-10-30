@@ -17,9 +17,10 @@ class RequestVisitController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function lists()
     {
-        //
+        $data=[];
+        return view('dashboard.request.list',compact('data'));
     }
 
     /**

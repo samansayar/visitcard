@@ -42,7 +42,7 @@
                 <div class="mt-6">
                     <x-auth-validation-errors class="mb-4" :errors="$errors" />
                 </div>
-                {{-- @if (session('success')) --}}
+                @if (session('success'))
                 <div class="mt-6 relative" x-show="handlerMessage" x-collapse.duration.800ms>
                     <button @click="handlerMessage = ! handlerMessage"
                         class="w-10 h-10 flex justify-center items-center top-4 right-4 rounded-full absolute">
@@ -64,7 +64,7 @@
                         </div>
                     </div>
                 </div>
-                {{-- @endif --}}
+                @endif
             </div>
         </div>
 </x-app-layout>

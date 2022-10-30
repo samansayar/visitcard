@@ -10,36 +10,28 @@
                     @csrf
                     <div class="grid w-full grid-cols-2 gap-4 mt-4 transition-all duration-200">
                         <div class="relative block">
-                            <x-label for="title" value="عنوان را انتخاب کنید" />
+                            <x-label for="title" value="عنوان فروشگاه را انتخاب کنید" />
                             <select id="title" name="title" autofocus
                                 class="bg-gray-50 px-10 !appearance-none border border-gray-300 text-sm rounded-lg text-gray-600 focus:ring-indigo-500 focus:border-indigo-500 focus:outeline-none  block w-full p-2 dark:bg-gray-700 dark-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 focus:outline-none dark:focus:border-indigo-500 disabled:bg-gray-200 disabled:text-gray-600">
-                                <option value="">انتخاب عنوان</option>
-                                <option value="فروشگاه" {{ old('title') == 'فروشگاه' ? 'selected' : '' }}>فروشگاه
-                                </option>
-                                <option value="الکتریکی" {{ old('title') == 'الکتریکی' ? 'selected' : '' }}>الکتریکی
-                                </option>
-                                <option value="روشنایی" {{ old('title') == 'روشنایی' ? 'selected' : '' }}>روشنایی
-                                </option>
-                                <option value="لوازم برقی" {{ old('title') == 'لوازم برقی' ? 'selected' : '' }}>
-                                    لوازم برقی</option>
-                                <option value="الکترو" {{ old('title') == 'الکترو' ? 'selected' : '' }}>الکترو
-                                </option>
-                                <option value="نمایشگاه" {{ old('title') == 'نمایشگاه' ? 'selected' : '' }}>نمایشگاه
-                                </option>
-                                <option value="کالای برقی" {{ old('title') == 'کالای برقی' ? 'selected' : '' }}>
-                                    کالای برقی</option>
-                                <option value="کالای ساختمانی" {{ old('title') == 'کالای ساختمانی' ? 'selected' : '' }}>
-                                    کالای ساختمانی</option>
-                                <option value="صنایع و بازرگانی"
-                                    {{ old('title') == 'صنایع و بازرگانی' ? 'selected' : '' }}>صنایع و بازرگانی
-                                </option>
-                                <option value="شرکت" {{ old('title') == 'شرکت' ? 'selected' : '' }}>شرکت</option>
+                                <option value="" selected>انتخاب عنوان</option>
+                                @foreach ($shopTitle as $title)
+                                    <option value="{{ $title->title_shop }}"
+                                        {{ old('title') == $title->title_shop ? 'selected' : '' }}>
+                                        {{ $title->title_shop }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="relative block">
-                            <x-label for="title" value="نام عنوان را وارد کنید" />
-                            <x-input id="title" class="block mt-1 w-full" type="text" name="title"
-                                value="{{ old('title') }}" />
+                            <x-label for="accessbiliy" value="سطح دسترسی را انتخاب کنید" />
+                            <select id="accessbiliy" name="accessbiliy" autofocus
+                                class="bg-gray-50 px-10 !appearance-none border border-gray-300 text-sm rounded-lg text-gray-600 focus:ring-indigo-500 focus:border-indigo-500 focus:outeline-none  block w-full p-2 dark:bg-gray-700 dark-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 focus:outline-none dark:focus:border-indigo-500 disabled:bg-gray-200 disabled:text-gray-600">
+                                <option value="" selected>انتخاب سطح دسترسی</option>
+                                @foreach ($accessbility as $title)
+                                    <option value="{{ $title->accessbiliy }}"
+                                        {{ old('accessbiliy') == $title->accessbiliy ? 'selected' : '' }}>
+                                        {{ $title->accessbiliy }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="relative block">
                             <x-label for="sort" value="نام فروشگاه / شرکت را وارد کنید" />
@@ -62,22 +54,39 @@
                             </select>
                         </div>
                         <div class="relative block">
-                            <x-label for="state" value="شهر" />
-                            <x-input id="state" class="block mt-1 w-full" type="text" name="state"
-                                value="{{ old('state') }}" placeholder="پرند" />
+                            <x-label for="city" value="شهر را انتخاب کنید" />
+                            <select disabled id="city" name="city" x-model="citytype"
+                                class="bg-gray-50 px-10 !appearance-none border border-gray-300 text-sm rounded-lg text-gray-600 focus:ring-indigo-500 focus:border-indigo-500 focus:outeline-none  block w-full p-2 dark:bg-gray-700 dark-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 focus:outline-none dark:focus:border-indigo-500 disabled:bg-gray-200 disabled:text-gray-600">
+                                <option>انتخاب شهر</option>
+                                <template x-for="i in dataCity">
+                                    <option :value="i.name" x-text="i.name"></option>
+                                </template>
+                            </select>
                         </div>
-                        <div class=" relative block">
-                            <x-label type="phone" value="شماره موبایل" />
+                        <div class="relative flex justify-start space-x-3 items-center">
+                            <div></div>
+                            <div class=" relative block w-4/6">
+                                <x-label type="phone" value="شماره تلفن" />
 
-                            <x-input id="phone" class="block mt-1 w-full" type="text" name="phone"
-                                value="09016189372" />
+                                <x-input id="phone" class="block mt-1 w-full" type="text" name="phone"
+                                    value="09016189372" />
+                            </div>
+
+                            <div class="relative block w-2/6">
+                                <x-label type="prephone" value="پیش شماره" />
+
+                                <x-input id="prephone" class="block mt-1 w-full" type="text" name="prephone"
+                                    value="021" />
+                            </div>
                         </div>
-
-                        <div class="relative block">
-                            <x-label type="prephone" value="پیش شماره" />
-
-                            <x-input id="prephone" class="block mt-1 w-full" type="text" name="prephone"
-                                value="021" />
+                        <div class="relative flex justify-around mt-5 items-center">
+                            <button
+                                class="text-white bg-indigo-600 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-xs  sm:w-auto px-3 w-full py-2 text-center dark:bg-indigo-500 dark:hover:bg-indigo-600 transition duration-150 dark:focus:ring-indigo-700">افزودن
+                                فیلد</button>
+                            <p class="text-xs pr-2 text-gray-00">در صورت داشتن شماره موبایل دوم بر روی افزودن فیلد کلیک
+                                کنید.
+                                <span class="text-red-500">استفاده از این فیلد تنهای یک با مجاز میباشد</span>
+                            </p>
                         </div>
                         <div class="lg:col-span-2 relative block">
                             <x-label for="address_shop" value="آدرس فروشگاه" />
@@ -103,15 +112,20 @@
                                 value="09016189372" />
                         </div>
                         <div class=" relative block">
-                            <x-label type="phone" value="شماره موبایل" />
-
-                            <x-input id="phone" class="block mt-1 w-full" type="text" name="phone"
-                                value="09016189372" />
+                            <div class="relative flex justify-around mt-5 items-center">
+                                <button
+                                    class="text-white bg-indigo-600 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-xs  sm:w-auto px-3 w-full py-2 text-center dark:bg-indigo-500 dark:hover:bg-indigo-600 transition duration-150 dark:focus:ring-indigo-700">افزودن
+                                    فیلد</button>
+                                <p class="text-xs pr-2 text-gray-00">در صورت داشتن شماره موبایل دوم بر روی افزودن فیلد
+                                    کلیک کنید.
+                                    <span class="text-red-500">استفاده از این فیلد تنهای یک با مجاز میباشد</span>
+                                </p>
+                            </div>
                         </div>
                         <div class="col-span-2 relative block">
-                            <x-label for="startdate" value="تاریخ شروع را وارد کنید" />
-                            <x-input id="startdate" data-jdp class="block mt-1 w-full" type="text" name="startdate"
-                                readonly value="{{ old('startdate') }}" />
+                            <x-label for="startdate" value="تاریخ تولد صاحب فروشگاه" />
+                            <x-input id="startdate" data-jdp class="block mt-1 w-full" type="text"
+                                name="startdate" readonly value="{{ old('startdate') }}" />
                         </div>
                         <div class="relative block lg:col-span-2">
                             <x-label for="desc" value="توضیحات" />
@@ -159,4 +173,7 @@
                 {{-- @endif --}}
             </div>
         </div>
+        <script>
+            jalaliDatepicker.startWatch();
+        </script>
 </x-app-layout>

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\accessbility;
+use App\Models\ShopTitle;
 use App\Models\UserAdmin;
 use Illuminate\Http\Request;
 
@@ -25,7 +27,9 @@ class UserAdminController extends Controller
      */
     public function create()
     {
-        return view('admin.users.create');
+        $shopTitle = ShopTitle::query()->get();
+        $accessbility = accessbility::query()->get();
+        return view('admin.users.create',compact('shopTitle','accessbility'));
     }
 
     /**

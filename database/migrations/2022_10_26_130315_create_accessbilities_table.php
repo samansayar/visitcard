@@ -15,6 +15,11 @@ class CreateAccessbilitiesTable extends Migration
     {
         Schema::create('accessbilities', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->string('accessbiliy');
+            $table->string('sort');
+            $table->longText('desc');
+            $table->boolean('status')->default(0);
             $table->timestamps();
         });
     }

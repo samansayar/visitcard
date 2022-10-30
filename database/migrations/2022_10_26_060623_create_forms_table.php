@@ -15,7 +15,17 @@ class CreateFormsTable extends Migration
     {
         Schema::create('forms', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->string('title_shop');
+            $table->string('access')->nullable();
+            $table->json('feild')->nullable();
+            $table->string('show_in_shop');
+            $table->string('show_in_cardvisit');
+            $table->string('startdate');
+            $table->string('endstart');
+            $table->boolean('status')->default(0);
             $table->timestamps();
+            $table->SoftDeletes();
         });
     }
 

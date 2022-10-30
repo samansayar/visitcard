@@ -36,7 +36,19 @@ class SematController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            "name_semat" => 'string|required',
+            "sort" => 'string|required',
+            "desc" => 'string|required',
+        ]);
+
+        $request->user()->semat()->create([
+            'name_semat' => $request->name_semat,
+            'sort' => $request->sort,
+            'desc' => $request->desc,
+        ]);
+
+        return back()->with('success', 'اطلاعات کاربر با موفقیت ثبت شد');
     }
 
     /**

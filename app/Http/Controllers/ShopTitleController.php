@@ -14,8 +14,8 @@ class ShopTitleController extends Controller
      */
     public function index()
     {
-        $data = [];
-        return view('admin.shop_title.index',compact('data'));
+        $data = ShopTitle::query()->get();
+        return view('admin.shop_title.index', compact('data'));
     }
 
     /**
@@ -36,7 +36,19 @@ class ShopTitleController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        $request->validate([
+            "title_shop" => 'string|required',
+            "sort" => 'string|required',
+            "desc" => 'string',
+        ]);
+
+        $request->user()->ShopTitle()->create([
+            'title_shop' => $request->title_shop,
+            'sort' => $request->sort,
+            'desc' => $request->desc,
+        ]);
+
+        return back()->with('success', 'اطلاعات کاربر با موفقیت ثبت شد');
     }
 
     /**
@@ -81,6 +93,8 @@ class ShopTitleController extends Controller
      */
     public function destroy(ShopTitle $shopTitle)
     {
-        //
+        $shopTitle->delete();
+
+        return back()->with('success', 'عنوان فروشگاه حذف شد ');
     }
 }

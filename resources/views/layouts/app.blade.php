@@ -15,8 +15,10 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     {{-- Scripts --}}
-    <script src="{{ asset('js/app.js') }}" defer></script>
     <script type="text/javascript" src="{{ asset('js/jalaliDataPicker.min.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}" defer></script>
+    {{-- <script src="https://cdn.ckeditor.com/ckeditor5/11.0.1/classic/ckeditor.js"></script> --}}
+    @livewireStyles
 </head>
 
 <body class="tracking-normal font-light" dir="rtl">
@@ -48,7 +50,7 @@
         </div>
 
     </div>
-
+    @livewireScripts
 </body>
 
 </html>

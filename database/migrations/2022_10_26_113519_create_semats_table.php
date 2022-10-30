@@ -15,6 +15,11 @@ class CreateSematsTable extends Migration
     {
         Schema::create('semats', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->string('name_semat');
+            $table->string('sort');
+            $table->string('desc');
+            $table->boolean('status')->default(0);
             $table->timestamps();
         });
     }

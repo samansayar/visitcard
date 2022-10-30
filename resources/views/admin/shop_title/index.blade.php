@@ -149,20 +149,21 @@
                                 </td>
                                 <td class="border-dashed border-t border-gray-200 text-center">
                                     <span
-                                        class="text-gray-700 justify-center px-6 py-3 flex items-center text-sm">{{ $item->state }}</span>
-                                </td>
-                                <td class="border-dashed border-t border-gray-200 text-center">
-                                    <span
-                                        class="text-gray-700 justify-center px-6 py-3 flex items-center text-sm">{{ $item->city }}</span>
+                                        class="text-gray-700 justify-center px-6 py-3 flex items-center text-sm">{{ $item->title_shop }}</span>
                                 </td>
                                 <td class="border-dashed border-t border-gray-200 text-center">
                                     <span
                                         class="text-gray-700 justify-center px-6 py-3 flex items-center text-sm">{{ $item->sort }}</span>
                                 </td>
+
+                                <td class="border-dashed border-t border-gray-200 text-center">
+                                    <span
+                                        class="text-gray-700 justify-center px-6 py-3 flex items-center text-sm">{{ $item->desc }}</span>
+                                </td>
                                 <td
                                     class="border-dashed border-t border-gray-200 flex justify-center pt-1 items-end text-center">
                                     {{-- Delete --}}
-                                    <form method="POST" action="{{ route('member.destroy', $item) }}">
+                                    <form method="POST" action="{{ route('admin.shop-titles.destroy', $item) }}">
                                         @csrf
                                         @method('delete')
                                         <button title="حذف"
@@ -233,8 +234,8 @@
                         'value': 'توضیحات'
                     },
                     {
-                        'key': 'ویرایش',
-                        'value': 'ویرایش'
+                        'key': 'حذف',
+                        'value': 'حذف'
                     },
                     {
                         'key': 'عملیات',
