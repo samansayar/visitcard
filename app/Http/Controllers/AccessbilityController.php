@@ -93,6 +93,8 @@ class AccessbilityController extends Controller
      */
     public function destroy(accessbility $accessbility)
     {
-        //
+        $accessbility->delete();
+
+        return back()->with('success', 'فروشگاه حذف شد ');
     }
 }

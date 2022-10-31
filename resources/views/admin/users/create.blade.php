@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header"> ایجاد کاربر جدید</x-slot>
-    <div x-data="{ dataCity: [], handlerMessage: true }" x-init="dataCity = await (await fetch('https://iran-locations-api.vercel.app/api/v1/states')).json()">
+    <div x-data="{ handlerMessage: true, citytype: '', typestate: false }">
         {{-- TODO =>  CODEING HERE.... --}}
         <div class="lg:grid grid-cols-12 gap-4 w-full relative">
             <div class="lg:col-span-7 w-full relative rounded-md">
@@ -21,18 +21,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="relative block">
-                            <x-label for="accessbiliy" value="سطح دسترسی را انتخاب کنید" />
-                            <select id="accessbiliy" name="accessbiliy" autofocus
-                                class="bg-gray-50 px-10 !appearance-none border border-gray-300 text-sm rounded-lg text-gray-600 focus:ring-indigo-500 focus:border-indigo-500 focus:outeline-none  block w-full p-2 dark:bg-gray-700 dark-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 focus:outline-none dark:focus:border-indigo-500 disabled:bg-gray-200 disabled:text-gray-600">
-                                <option value="" selected>انتخاب سطح دسترسی</option>
-                                @foreach ($accessbility as $title)
-                                    <option value="{{ $title->accessbiliy }}"
-                                        {{ old('accessbiliy') == $title->accessbiliy ? 'selected' : '' }}>
-                                        {{ $title->accessbiliy }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                        <x-selectbox-access />
                         <div class="relative block">
                             <x-label for="sort" value="نام فروشگاه / شرکت را وارد کنید" />
                             <x-input id="sort" class="block mt-1 w-full" type="text" name="sort"
@@ -43,51 +32,8 @@
                             <x-input id="sort" class="block mt-1 w-full" type="text" name="sort"
                                 value="{{ old('sort') }}" placeholder="مثال: ۱۲۳۴۵۶" />
                         </div>
-                        <div class="relative block">
-                            <x-label for="city" value="استان را انتخاب کنید" />
-                            <select id="city" name="city" x-model="citytype"
-                                class="bg-gray-50 px-10 !appearance-none border border-gray-300 text-sm rounded-lg text-gray-600 focus:ring-indigo-500 focus:border-indigo-500 focus:outeline-none  block w-full p-2 dark:bg-gray-700 dark-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 focus:outline-none dark:focus:border-indigo-500 disabled:bg-gray-200 disabled:text-gray-600">
-                                <option>انتخاب استان</option>
-                                <template x-for="i in dataCity">
-                                    <option :value="i.name" x-text="i.name"></option>
-                                </template>
-                            </select>
-                        </div>
-                        <div class="relative block">
-                            <x-label for="city" value="شهر را انتخاب کنید" />
-                            <select disabled id="city" name="city" x-model="citytype"
-                                class="bg-gray-50 px-10 !appearance-none border border-gray-300 text-sm rounded-lg text-gray-600 focus:ring-indigo-500 focus:border-indigo-500 focus:outeline-none  block w-full p-2 dark:bg-gray-700 dark-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 focus:outline-none dark:focus:border-indigo-500 disabled:bg-gray-200 disabled:text-gray-600">
-                                <option>انتخاب شهر</option>
-                                <template x-for="i in dataCity">
-                                    <option :value="i.name" x-text="i.name"></option>
-                                </template>
-                            </select>
-                        </div>
-                        <div class="relative flex justify-start space-x-3 items-center">
-                            <div></div>
-                            <div class=" relative block w-4/6">
-                                <x-label type="phone" value="شماره تلفن" />
+                        @livewire('manage-city-state')
 
-                                <x-input id="phone" class="block mt-1 w-full" type="text" name="phone"
-                                    value="09016189372" />
-                            </div>
-
-                            <div class="relative block w-2/6">
-                                <x-label type="prephone" value="پیش شماره" />
-
-                                <x-input id="prephone" class="block mt-1 w-full" type="text" name="prephone"
-                                    value="021" />
-                            </div>
-                        </div>
-                        <div class="relative flex justify-around mt-5 items-center">
-                            <button
-                                class="text-white bg-indigo-600 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-xs  sm:w-auto px-3 w-full py-2 text-center dark:bg-indigo-500 dark:hover:bg-indigo-600 transition duration-150 dark:focus:ring-indigo-700">افزودن
-                                فیلد</button>
-                            <p class="text-xs pr-2 text-gray-00">در صورت داشتن شماره موبایل دوم بر روی افزودن فیلد کلیک
-                                کنید.
-                                <span class="text-red-500">استفاده از این فیلد تنهای یک با مجاز میباشد</span>
-                            </p>
-                        </div>
                         <div class="lg:col-span-2 relative block">
                             <x-label for="address_shop" value="آدرس فروشگاه" />
                             <x-input id="address_shop" class="block mt-1 w-full" type="text" name="address_shop"
@@ -96,36 +42,39 @@
                         <div class="relative block">
                             <x-label type="fname" value="نام صاحب فروشگاه" />
 
-                            <x-input id="fname" value="{{ old('fname') }}" class="block mt-1 w-full"
-                                type="text" name="fname" placeholder="به عنوان مثال: محمد" />
+                            <x-input id="fname" value="{{ old('fname') }}" class="block mt-1 w-full" type="text"
+                                name="fname" placeholder="به عنوان مثال: محمد" />
                         </div>
                         <div class="relative block">
                             <x-label type="lname" value="نام خانوادگی صاحب فروشگاه" />
 
-                            <x-input id="lname" value="{{ old('lname') }}" class="block mt-1 w-full"
-                                type="text" name="lname" placeholder="به عنوان مثال :‌ملک محمدی" />
+                            <x-input id="lname" value="{{ old('lname') }}" class="block mt-1 w-full" type="text"
+                                name="lname" placeholder="به عنوان مثال :‌ملک محمدی" />
                         </div>
-                        <div class=" relative block">
-                            <x-label type="phone" value="شماره موبایل" />
+                        <div class="col-span-2 relative grid lg:grid-cols-2 gap-3">
+                            <div class="relative block" id="numbers">
+                                <x-label type="phone" value="شماره موبایل" />
 
-                            <x-input id="phone" class="block mt-1 w-full" type="text" name="phone"
-                                value="09016189372" />
-                        </div>
-                        <div class=" relative block">
-                            <div class="relative flex justify-around mt-5 items-center">
-                                <button
-                                    class="text-white bg-indigo-600 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-xs  sm:w-auto px-3 w-full py-2 text-center dark:bg-indigo-500 dark:hover:bg-indigo-600 transition duration-150 dark:focus:ring-indigo-700">افزودن
-                                    فیلد</button>
-                                <p class="text-xs pr-2 text-gray-00">در صورت داشتن شماره موبایل دوم بر روی افزودن فیلد
-                                    کلیک کنید.
-                                    <span class="text-red-500">استفاده از این فیلد تنهای یک با مجاز میباشد</span>
-                                </p>
+                                <x-input id="phone" class="block mt-1 w-full" type="text" name="phone"
+                                    value="09016189372" />
+                            </div>
+                            <div class=" relative block">
+                                <div class="relative flex justify-around mt-5 items-center">
+                                    <button onclick="AddFeildPhone()" type="button"
+                                        class="text-white bg-indigo-600 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-xs  sm:w-auto px-3 w-full py-2 text-center dark:bg-indigo-500 dark:hover:bg-indigo-600 transition duration-150 dark:focus:ring-indigo-700">افزودن
+                                        فیلد</button>
+                                    <p class="text-xs pr-2 text-gray-00">در صورت داشتن شماره موبایل دوم بر روی افزودن
+                                        فیلد
+                                        کلیک کنید.
+                                        <span class="text-red-500">استفاده از این فیلد تنهای یک با مجاز میباشد</span>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                         <div class="col-span-2 relative block">
                             <x-label for="startdate" value="تاریخ تولد صاحب فروشگاه" />
-                            <x-input id="startdate" data-jdp class="block mt-1 w-full" type="text"
-                                name="startdate" readonly value="{{ old('startdate') }}" />
+                            <x-input id="startdate" data-jdp class="block mt-1 w-full" type="text" name="startdate"
+                                readonly value="{{ old('startdate') }}" />
                         </div>
                         <div class="relative block lg:col-span-2">
                             <x-label for="desc" value="توضیحات" />
@@ -175,5 +124,58 @@
         </div>
         <script>
             jalaliDatepicker.startWatch();
+
+            var number = document.getElementById('numbers');
+            var numbersPhone = document.getElementById('numbersPhone');
+
+            function AddFeild() {
+                var inputLength = numbersPhone.getElementsByTagName('input');
+                console.log(inputLength.length);
+                if (inputLength.length === 0) {
+                    // Create input phone
+                    var newField = document.createElement('input');
+                    newField.setAttribute('type', 'text');
+                    newField.setAttribute('name', 'numbersPhone');
+                    newField.setAttribute('class',
+                        `mt-3 bg-gray-50 border col-span-8 border-gray-200 text-gray-700 text-sm rounded-lg disabled:bg-gray-200 focus:ring-0 focus:border-indigo-300 focus:outline-none block w-full px-4 py-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-0 dark:focus:border-indigo-500`
+                    );
+                    newField.setAttribute('id', 'survey_numbersPhone');
+                    newField.setAttribute('placeholder', 'شماره موبایل دوم را وارد کنید');
+
+                    // Create input prenumber
+                    var prenumber = document.createElement('input');
+                    prenumber.setAttribute('type', 'text');
+                    prenumber.setAttribute('name', 'prenumber2');
+                    prenumber.setAttribute('value', '021');
+                    prenumber.setAttribute('class',
+                        `mt-3 bg-gray-50 col-span-4 border border-gray-200 text-gray-700 text-sm rounded-lg disabled:bg-gray-200 focus:ring-0 focus:border-indigo-300 focus:outline-none block w-full px-4 py-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-0 dark:focus:border-indigo-500`
+                    );
+                    prenumber.setAttribute('id', 'survey_prenumber');
+                    prenumber.setAttribute('placeholder', 'پیش شماره را وارد کنید');
+
+                    numbersPhone.appendChild(newField);
+                    numbersPhone.appendChild(prenumber);
+                } else {
+                    alert('شما فقط میتوانید یک فیلد شماره موبایل ایجاد کنید');
+                }
+            }
+
+            function AddFeildPhone() {
+                var inputLength = number.getElementsByTagName('input');
+                if (inputLength.length === 1) {
+                    var newField = document.createElement('input');
+                    newField.setAttribute('type', 'test');
+                    newField.setAttribute('name', 'number1');
+                    newField.setAttribute('class',
+                        `mt-3 bg-gray-50 border border-gray-200 text-gray-700 text-sm rounded-lg disabled:bg-gray-200 focus:ring-0 focus:border-indigo-300 focus:outline-none block w-full px-4 py-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-0 dark:focus:border-indigo-500`
+                    );
+                    newField.setAttribute('id', 'survey_options');
+                    newField.setAttribute('siz', 50);
+                    newField.setAttribute('placeholder', 'شماره تلفن دوم را وارد کنید');
+                    number.appendChild(newField);
+                } else {
+                    alert('شما فقط میتوانید یک فیلد شماره تلفن ایجاد کنید');
+                }
+            }
         </script>
 </x-app-layout>

@@ -68,20 +68,20 @@
                 <div class="mb-8 w-3/6 mx-auto relative" x-show="handlerMessage" x-collapse.duration.800ms>
                     <button @click="handlerMessage = ! handlerMessage"
                         class="w-10 h-10 flex justify-center items-center top-4 right-4 rounded-full absolute">
-                        <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        <svg class="w-6 h-6 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                             xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                 d="M6 18L18 6M6 6l12 12">
                             </path>
                         </svg>
                     </button>
-                    <div class="bg-pink-100 p-3 rounded-lg border border-red-200">
-                        <div class="w-20 h-20 rounded-full bg-red-500/20 mx-auto flex justify-center items-center">
-                            <img src="{{ asset('images/sad.png') }}" class="w-full h-full object-cover p-1.5" />
+                    <div class="bg-blue-100 p-3 rounded-lg border border-indigo-200">
+                        <div class="w-20 h-20 rounded-full bg-indigo-500/20 mx-auto flex justify-center items-center">
+                            <img src="{{ asset('images/party-popper.png') }}" class="w-full h-full object-cover p-1.5" />
                             {{-- <lottie-player src="https://assets7.lottiefiles.com/packages/lf20_jbrw3hcz.json"
         background="transparent" speed="1" class="w-32"></lottie-player> --}}
                         </div>
-                        <div class="text-center mt-4 text-sm w-full font-medium text-red-500">
+                        <div class="text-center mt-4 text-sm w-full font-medium text-indigo-500">
                             {{ session('success') }}
                         </div>
                     </div>
@@ -140,7 +140,7 @@
             <div x-show="tab === 'city'" class="my-5">
                 <div class="overflow-x-auto bg-white rounded-lg overflow-y-auto relative" style="height: 360px;">
                     @if (count($data) > 0)
-                        <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped relative">
+                        <table class="border-collapse table-auto w-full whitespace-nowrap bg-white table-striped relative">
                             <thead>
                                 <tr class="text-left">
                                     <template x-for="heading in headings">
@@ -227,7 +227,7 @@
             <div x-show="tab === 'state'" class="my-5">
                 <div class="overflow-x-auto bg-white rounded-lg overflow-y-auto relative" style="height: 360px;">
                     @if (count($state) > 0)
-                        <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped relative">
+                        <table class="border-collapse table-auto w-full whitespace-nowrap bg-white table-striped relative">
                             <thead>
                                 <tr class="text-left">
                                     <template x-for="heading in headings">

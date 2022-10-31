@@ -14,7 +14,7 @@ class SematController extends Controller
      */
     public function index()
     {
-        $data = [];
+        $data = Semat::query()->get();
         return view('admin.semat.index', compact('data'));
     }
 
@@ -48,7 +48,7 @@ class SematController extends Controller
             'desc' => $request->desc,
         ]);
 
-        return back()->with('success', 'اطلاعات کاربر با موفقیت ثبت شد');
+        return redirect(route('admin.semat.index'))->with('success', 'سمت جدید با موفقیت ثبت شد');
     }
 
     /**
@@ -70,7 +70,9 @@ class SematController extends Controller
      */
     public function edit(Semat $semat)
     {
-        //
+        return view('admin.semat.edit', [
+            'data' => $semat,
+        ]);
     }
 
     /**
@@ -82,7 +84,19 @@ class SematController extends Controller
      */
     public function update(Request $request, Semat $semat)
     {
-        //
+        $request->validate([
+            "name_semat" => 'string|required',
+            "sort" => 'string|required',
+            "desc" => 'string|required',
+        ]);
+
+        $semat->update([
+            'name_semat' => $request->name_semat,
+            'sort' => $request->sort,
+            'desc' => $request->desc,
+        ]);
+
+        return redirect(route('admin.semat.index'))->with('success', 'اطلاعات با موفقیت ثبت شد');
     }
 
     /**
@@ -93,6 +107,8 @@ class SematController extends Controller
      */
     public function destroy(Semat $semat)
     {
-        //
+        $semat->delete();
+
+        return back()->with('success', 'سمت حذف شد');
     }
 }

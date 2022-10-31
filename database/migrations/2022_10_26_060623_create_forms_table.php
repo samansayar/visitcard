@@ -21,8 +21,8 @@ class CreateFormsTable extends Migration
             $table->json('feild')->nullable();
             $table->string('show_in_shop');
             $table->string('show_in_cardvisit');
-            $table->string('startdate');
-            $table->string('endstart');
+            $table->string('startdate')->nullable();
+            $table->string('endstart')->nullable();
             $table->boolean('status')->default(0);
             $table->timestamps();
             $table->SoftDeletes();

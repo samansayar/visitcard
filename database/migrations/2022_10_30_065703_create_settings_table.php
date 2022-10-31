@@ -18,7 +18,7 @@ class CreateSettingsTable extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('title')->nullable();
             $table->string('logo')->nullable();
-            $table->string('desc');
+            $table->longText('desc');
             $table->boolean('status')->default(0);
             $table->timestamps();
         });

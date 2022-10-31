@@ -29,9 +29,7 @@ class ShopController extends Controller
      */
     public function create()
     {
-        $members = Auth::user()->member()->where('status', 1)->where('title', 'صاحب کسب و کار')
-        >select('fname', 'lname', 'status', 'title')
-        ->get();
+        $members = Auth::user()->member()->where('status', 1)->where('title', 'صاحب کسب و کار')->select('fname', 'lname', 'status', 'title')->get();
         // dd($members);
         return view('dashboard.shop.create', compact('members'));
     }

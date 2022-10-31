@@ -26,7 +26,8 @@ class SettingController extends Controller
     {
         // dd(Setting::query()->find(5));
         // dd(Setting::query()->delete());
-        $data = Setting::query()->find(5);
+        $data = Setting::query()->first();
+        // dd($data);
         return view('admin.setting.create', compact('data'));
     }
 
@@ -38,8 +39,8 @@ class SettingController extends Controller
      */
     public function store(Request $request)
     {
-        $data = Setting::query()->find(5);
-        $file_path = $data->logo;
+        $data = Setting::query()->get();
+        $file_path = $data ? Setting::query()->first()->logo : 'not';
 
         $request->validate([
             "title" => 'string',
@@ -52,11 +53,19 @@ class SettingController extends Controller
             $file_path = $filePath;
         }
 
-        $request->user()->setting()->find(5)->update([
-            'title' => $request->title,
-            'logo' => $file_path,
-            'desc' => $request->desc
-        ]);
+        if (count($data) == 1) {
+            $request->user()->setting()->update([
+                'title' => $request->title,
+                'logo' => $file_path,
+                'desc' => $request->desc
+            ]);
+        } else {
+            $request->user()->setting()->create([
+                'title' => $request->title,
+                'logo' => $file_path,
+                'desc' => $request->desc
+            ]);
+        }
         return back()
             ->with('success', 'File has been uploaded.');
     }

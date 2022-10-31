@@ -20,7 +20,7 @@
 
 
             @if (session('toggle'))
-            <div class="mb-8 w-3/6 mx-auto relative" x-show="handlerMessage" x-collapse.duration.800ms>
+                <div class="mb-8 w-3/6 mx-auto relative" x-show="handlerMessage" x-collapse.duration.800ms>
                     <button @click="handlerMessage = ! handlerMessage"
                         class="w-10 h-10 flex justify-center items-center top-4 right-4 rounded-full absolute">
                         <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -43,7 +43,7 @@
                 </div>
             @endif
             @if (session('togglefalse'))
-            <div class="mb-8 w-3/6 mx-auto relative" x-show="handlerMessage" x-collapse.duration.800ms>
+                <div class="mb-8 w-3/6 mx-auto relative" x-show="handlerMessage" x-collapse.duration.800ms>
                     <button @click="handlerMessage = ! handlerMessage"
                         class="w-10 h-10 flex justify-center items-center top-4 right-4 rounded-full absolute">
                         <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -68,20 +68,21 @@
                 <div class="mb-8 w-3/6 mx-auto relative" x-show="handlerMessage" x-collapse.duration.800ms>
                     <button @click="handlerMessage = ! handlerMessage"
                         class="w-10 h-10 flex justify-center items-center top-4 right-4 rounded-full absolute">
-                        <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        <svg class="w-6 h-6 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                             xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                 d="M6 18L18 6M6 6l12 12">
                             </path>
                         </svg>
                     </button>
-                    <div class="bg-pink-100 p-3 rounded-lg border border-red-200">
-                        <div class="w-20 h-20 rounded-full bg-red-500/20 mx-auto flex justify-center items-center">
-                            <img src="{{ asset('images/sad.png') }}" class="w-full h-full object-cover p-1.5" />
+                    <div class="bg-blue-100 p-3 rounded-lg border border-indigo-200">
+                        <div class="w-20 h-20 rounded-full bg-indigo-500/20 mx-auto flex justify-center items-center">
+                            <img src="{{ asset('images/party-popper.png') }}"
+                                class="w-full h-full object-cover p-1.5" />
                             {{-- <lottie-player src="https://assets7.lottiefiles.com/packages/lf20_jbrw3hcz.json"
         background="transparent" speed="1" class="w-32"></lottie-player> --}}
                         </div>
-                        <div class="text-center mt-4 text-sm w-full font-medium text-red-500">
+                        <div class="text-center mt-4 text-sm w-full font-medium text-indigo-500">
                             {{ session('success') }}
                         </div>
                     </div>
@@ -128,7 +129,7 @@
 
         <div class="overflow-x-auto bg-white rounded-lg overflow-y-auto relative" style="height: 360px;">
             @if (count($data) > 0)
-                <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped relative">
+                <table class="border-collapse table-auto w-full whitespace-nowrap bg-white table-striped relative">
                     <thead>
                         <tr class="text-left">
                             <template x-for="heading in headings">
@@ -149,27 +150,48 @@
                                         class="text-gray-700 justify-center px-2 py-3 flex items-center text-sm">{{ $item->id }}</span>
                                 </td>
                                 <td class="border-dashed border-t border-gray-200 text-center">
-                                    <span
-                                        class="text-gray-700 justify-center px-6 py-3 flex items-center text-sm">{{ $item->fname }}
-                                        &nbsp; {{ $item->lname }}</span>
+                                    <span class="text-gray-700 justify-center px-6 py-3 flex items-center text-sm">
+                                        {{ $item->title_shop }}</span>
                                 </td>
                                 <td class="border-dashed border-t border-gray-200 text-center">
                                     <span
-                                        class="text-gray-700 justify-center px-6 py-3 flex items-center text-sm">{{ $item->title }}</span>
+                                        class="text-gray-700 justify-center px-6 py-3 flex items-center text-sm">{{ $item->access }}</span>
                                 </td>
                                 <td class="border-dashed border-t border-gray-200 text-center">
                                     <span
-                                        class="text-gray-700 justify-center px-6 py-3 flex items-center text-sm">{{ $item->city }}
-                                        - {{ $item->state }}</span>
+                                        class="text-gray-700 justify-center px-6 py-3 flex items-center text-sm">{{ $item->show_in_shop }}</span>
                                 </td>
                                 <td class="border-dashed border-t border-gray-200 text-center">
                                     <span
-                                        class="text-gray-700 justify-center px-6 py-3 flex items-center text-sm">{{ $item->created_at->diffForHumans() }}</span>
+                                        class="text-gray-700 justify-center px-6 py-3 flex items-center text-sm">{{ $item->show_in_cardvisit }}</span>
+                                </td>
+                                <td class="border-dashed border-t border-gray-200 text-center">
+                                    <span
+                                        class="text-gray-700 justify-center px-6 py-3 flex items-center text-sm">{{ $item->startdate }}</span>
+                                </td>
+                                <td class="border-dashed border-t border-gray-200 text-center">
+                                    <span
+                                        class="text-gray-700 justify-center px-6 py-3 flex items-center text-sm">{{ $item->endstart }}</span>
                                 </td>
                                 <td class="border-dashed border-t border-gray-200 text-center">
                                     <div class="w-full flex justify-around items-center">
                                         {{-- Delete --}}
-                                        <form method="POST" action="{{ route('member.destroy', $item) }}">
+                                        <form method="get" action="{{ route('admin.form.edit', $item) }}">
+                                            @csrf
+                                            <button title="ویرایش"
+                                                onclick="event.preventDefault(); this.closest('form').submit();"
+                                                class="p-0.5 w-8 flex justify-center items-center h-8 rounded-full bg-yellow-300/60 hover:scale-110 hover:bg-yellow-200 transition duration-150 text-yellow-600">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="1.5"
+                                                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                                                    </path>
+                                                </svg>
+                                            </button>
+                                        </form>
+                                        {{-- Delete --}}
+                                        <form method="POST" action="{{ route('admin.form.destroy', $item) }}">
                                             @csrf
                                             @method('delete')
                                             <button title="حذف"
@@ -184,36 +206,37 @@
                                                 </svg>
                                             </button>
                                         </form>
-
-                                        {{-- Verify / Reject --}}
-                                        <form method="POST" action="{{ route('member.update', $item) }}"
-                                            class="flex items-center">
-                                            @csrf
-                                            @method('patch')
-                                            <button onclick="event.preventDefault(); this.closest('form').submit();"
-                                                title="فعال سازی / غیر فعال سازی"
-                                                class="p-0.5 w-8 flex justify-center items-center h-8 rounded-full hover:scale-110 hover:bg-indigo-200  transition duration-150 text-indigo-600">
-                                                <svg class="w-5 h-5" fill="none" stroke="currentColor"
-                                                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="1.5"
-                                                        d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z">
-                                                    </path>
-                                                </svg>
-                                            </button>
-                                            <p class="pr-1 text-xs text-indigo-500">
-                                                {{ $item->status ? 'فعال' : 'غیر فعال' }}</p>
-                                        </form>
                                     </div>
                                 </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            @else
-                <p class="my-10 text-gray-500 text-center w-full tetx-sm">چیزی یافت نشد</p>
-            @endif
+                                <td class="border-dashed border-t border-gray-200 text-center">
+                                    <form method="POST" action="{{ route('member.update', $item) }}"
+                                        class="flex items-center">
+                                        @csrf
+                                        @method('patch')
+                                        <button onclick="event.preventDefault(); this.closest('form').submit();"
+                                            title="فعال سازی / غیر فعال سازی"
+                                            class="p-0.5 w-8 flex justify-center items-center h-8 rounded-full hover:scale-110 hover:bg-indigo-200  transition duration-150 text-indigo-600">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    stroke-width="1.5"
+                                                    d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z">
+                                                </path>
+                                            </svg>
+                                        </button>
+                                        <p class="pr-1 text-xs text-indigo-500">
+                                            {{ $item->status ? 'فعال' : 'غیر فعال' }}</p>
+                                    </form>
         </div>
+        </td>
+        </tr>
+        @endforeach
+        </tbody>
+        </table>
+    @else
+        <p class="my-10 text-gray-500 text-center w-full tetx-sm">چیزی یافت نشد</p>
+        @endif
+    </div>
     </div>
 
     <script>
@@ -222,23 +245,35 @@
                 handlerMessage: true,
                 headings: [{
                         'key': 'userId',
-                        'value': 'کد کاربر'
+                        'value': 'کد'
                     },
                     {
                         'key': 'firstName',
-                        'value': 'نام نام خانوادگی'
+                        'value': 'عنوان فرم'
                     },
                     {
-                        'key': 'عنوان',
-                        'value': 'عنوان'
+                        'key': 'سطح دسترسی',
+                        'value': 'سطح دسترسی'
                     },
                     {
-                        'key': 'استان / شهر',
-                        'value': 'استان / شهر'
+                        'key': 'نمایش در ایجاد فروشگاه',
+                        'value': 'نمایش در ایجاد فروشگاه'
                     },
                     {
-                        'key': 'تاریخ ایجاد',
-                        'value': 'تاریخ ایجاد'
+                        'key': 'نمایش در کارت ویزیت',
+                        'value': 'نمایش در کارت ویزیت'
+                    },
+                    {
+                        'key': 'تاریخ شروع',
+                        'value': 'تاریخ شروع'
+                    },
+                    {
+                        'key': 'تاریخ پایان',
+                        'value': 'تاریخ پایان'
+                    },
+                    {
+                        'key': 'ویرایش / حذف',
+                        'value': 'ویرایش / حذف'
                     },
                     {
                         'key': 'عملیات',

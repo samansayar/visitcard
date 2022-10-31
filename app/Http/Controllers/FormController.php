@@ -15,7 +15,6 @@ class FormController extends Controller
     public function index()
     {
         $data = Form::query()->get();
-        dd($data[0]->feild);
         return view('admin.form.index', compact('data'));
     }
 
@@ -38,8 +37,8 @@ class FormController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title_shop' => 'required|string',
-            'access' => 'required|string',
+            'title' => 'required|string',
+            'accessbiliy' => 'required|string',
             'feild' => 'required|array',
             'show_in_shop' => 'required|string',
             'show_in_cardvisit' => 'required|string',
@@ -49,8 +48,8 @@ class FormController extends Controller
 
 
         $result = $request->user()->Form()->create([
-            "title_shop" => $request->title_shop,
-            "access" => $request->access,
+            "title_shop" => $request->title,
+            "access" => $request->accessbiliy,
             "feild" => $request->feild,
             "show_in_shop" => $request->show_in_shop,
             "show_in_cardvisit" => $request->show_in_cardvisit,
@@ -79,7 +78,9 @@ class FormController extends Controller
      */
     public function edit(Form $form)
     {
-        //
+        return view('admin.form.edit', [
+            'data' => $form,
+        ]);
     }
 
     /**
@@ -91,7 +92,28 @@ class FormController extends Controller
      */
     public function update(Request $request, Form $form)
     {
-        //
+        // dd($request->all());
+        $request->validate([
+            'title' => 'required|string',
+            'accessbiliy' => 'required|string',
+            'feild' => 'required|array',
+            'show_in_shop' => 'required|string',
+            'show_in_cardvisit' => 'required|string',
+            'startdate' => 'required|string',
+            'endstart' => 'required|string'
+        ]);
+
+
+       $form->update([
+            "title_shop" => $request->title,
+            "access" => $request->accessbiliy,
+            "feild" => $request->feild,
+            "show_in_shop" => $request->show_in_shop,
+            "show_in_cardvisit" => $request->show_in_cardvisit,
+            "startdate" => $request->startdate,
+            "endstart" => $request->endstart,
+        ]);
+        return redirect(route('admin.form.index'))->with('success', 'فرم با موفقیت ویرایش شد');
     }
 
     /**
@@ -102,6 +124,8 @@ class FormController extends Controller
      */
     public function destroy(Form $form)
     {
-        //
+        $form->delete();
+
+        return back()->with('success', 'فرم حذف شد ');
     }
 }

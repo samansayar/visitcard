@@ -13,7 +13,7 @@
                         <div class="col-span-2 relative block">
                             <x-label for="title" value="عنوان سایت را وارد کنید" />
                             <x-input id="title" class="block mt-1 w-full" type="text" name="title"
-                                value="{{ $data->title }}" />
+                                value="{{ old('title', $data->title ?? '') }}" />
                         </div>
                         <div class="col-span-2 relative block" dir="ltr">
                             <x-label for="dropzone-file" value="تغییر لوگو" />
@@ -42,7 +42,7 @@
                         <div class="relative block lg:col-span-2">
                             <x-label for="desc" value="توضیحات" />
                             <textarea rows="8" id="desc" name="desc"
-                                class="text bg-gray-50 !appearance-none border border-gray-300 text-sm rounded-lg text-gray-600 focus:ring-indigo-500 focus:border-indigo-500 focus:outeline-none  block w-full p-5 dark:bg-gray-700 dark-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 focus:outline-none dark:focus:border-indigo-500 disabled:bg-gray-200 disabled:text-gray-600">{!! $data->desc !!}</textarea>
+                                class="text bg-gray-50 !appearance-none border border-gray-300 text-sm rounded-lg text-gray-600 focus:ring-indigo-500 focus:border-indigo-500 focus:outeline-none  block w-full p-5 dark:bg-gray-700 dark-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 focus:outline-none dark:focus:border-indigo-500 disabled:bg-gray-200 disabled:text-gray-600">{!! old('desc',$data->desc ?? '') !!}</textarea>
                         </div>
                     </div>
                     <button type="submit"

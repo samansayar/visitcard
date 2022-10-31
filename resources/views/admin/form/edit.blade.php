@@ -1,44 +1,47 @@
 <x-app-layout>
-    <x-slot name="header">ایجاد فرم</x-slot>
+    <x-slot name="header">ویرایش فرم
+        {{ $data->title_shop }}
+    </x-slot>
+    {{-- {{ dd() }} --}}
     <div x-data="{ handlerMessage: true, show_in_cardvisit: '', modalAddfeild: false, feild: [] }">
         {{-- TODO =>  CODEING HERE.... --}}
         <div class="lg:grid grid-cols-12 gap-4 w-full relative">
             <div class="lg:col-span-7 w-full relative rounded-md">
 
-                <form method="post" action="{{ route('admin.form.store') }}"
+                <form method="post" action="{{ route('admin.form.update',$data) }}"
                     class="lg:col-span-6 w-full relative rounded-md">
                     @csrf
+                    @method('patch')
                     <div class="grid w-full grid-cols-2 gap-4 mt-4 transition-all duration-200">
-<x-selectbox-title/>
-                        <x-selectbox-access />
+                        <x-selectbox-title :data="$data->title_shop" />
+                        <x-selectbox-access :data="$data->access" />
                         <div class="relative block">
-                            <x-label for="show_in_shop" value="نمایش در ایجاد فروشگاه" />
+                            <x-label for="show_in_shop" value="نمایش در ویرایش فروشگاه" />
                             <select id="show_in_shop" name="show_in_shop"
                                 class="bg-gray-50 px-10 !appearance-none border border-gray-300 text-sm rounded-lg text-gray-600 focus:ring-indigo-500 focus:border-indigo-500 focus:outeline-none  block w-full p-2 dark:bg-gray-700 dark-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 focus:outline-none dark:focus:border-indigo-500 disabled:bg-gray-200 disabled:text-gray-600">
-                                <option value="بله">بله</option>
-                                <option value="خیر">خیر</option>
+                                <option value="بله" @if ($data->shop_in_shop == 'بله') selected @endif>بله</option>
+                                <option value="خیر" @if ($data->shop_in_shop == 'خیر') selected @endif>خیر</option>
                             </select>
                         </div>
                         <div class="relative block">
                             <x-label for="show_in_cardvisit" value="نمایش در کارت ویزیت" />
-                            <select id="show_in_cardvisit"
-                                x-model="show_in_cardvisit" name="show_in_cardvisit"
+                            <select id="show_in_cardvisit" x-model="show_in_cardvisit" name="show_in_cardvisit"
                                 class="bg-gray-50 px-10 !appearance-none border border-gray-300 text-sm rounded-lg text-gray-600 focus:ring-indigo-500 focus:border-indigo-500 focus:outeline-none  block w-full p-2 dark:bg-gray-700 dark-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 focus:outline-none dark:focus:border-indigo-500 disabled:bg-gray-200 disabled:text-gray-600">
-                                <option value="خیر">خیر</option>
-                                <option value="بله">بله</option>
+                                <option value="خیر" @if ($data->show_in_cardvisit == 'خیر') selected @endif>خیر</option>
+                                <option value="بله" @if ($data->show_in_cardvisit == 'بله') selected @endif>بله</option>
                             </select>
                         </div>
 
-                            <div class="relative block" x-show="show_in_cardvisit === 'بله'" x-transition>
-                                <x-label for="startdate" value="تاریخ شروع را وارد کنید" />
-                                <x-input id="startdate" data-jdp class="block mt-1 w-full" type="text"
-                                    name="startdate" readonly value="{{ old('startdate') }}" />
-                            </div>
-                            <div class="relative block" x-show="show_in_cardvisit === 'بله'" x-transition>
-                                <x-label for="endstart" value="تاریخ پایان را وارد کنید" />
-                                <x-input id="endstart" data-jdp class="block mt-1 w-full" type="text"
-                                    name="endstart" readonly value="{{ old('endstart') }}" />
-                            </div>
+                        <div class="relative block" x-show="show_in_cardvisit === 'بله'" x-transition>
+                            <x-label for="startdate" value="تاریخ شروع را وارد کنید" />
+                            <x-input id="startdate" data-jdp class="block mt-1 w-full" type="text" name="startdate"
+                                readonly value="{{ old('startdate', $data->startdate) }}" />
+                        </div>
+                        <div class="relative block" x-show="show_in_cardvisit === 'بله'" x-transition>
+                            <x-label for="endstart" value="تاریخ پایان را وارد کنید" />
+                            <x-input id="endstart" data-jdp class="block mt-1 w-full" type="text" name="endstart"
+                                readonly value="{{ old('endstart', $data->endstart) }}" />
+                        </div>
 
 
                     </div>
@@ -83,7 +86,7 @@
 
                                     <ul class="grid gap-3 w-full grid-cols-5">
                                         <li>
-                                            <input type="checkbox" x-model="feild" name="feild[]" id="website"
+                                            <input type="checkbox"  name="feild[]" @if(in_array('website',$data->feild)) checked @endif id="website"
                                                 value="website" class="hidden peer">
                                             <label for="website"
                                                 class="inline-flex justify-center items-center p-4 w-full text-gray-600 bg-white rounded-lg border-2 border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-2 peer-checked:border-indigo-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
@@ -100,7 +103,7 @@
                                             </label>
                                         </li>
                                         <li>
-                                            <input type="checkbox" x-model="feild" name="feild[]" id="address"
+                                            <input type="checkbox"  name="feild[]" @if(in_array('address',$data->feild)) checked @endif id="address"
                                                 value="address" class="hidden peer">
                                             <label for="address"
                                                 class="inline-flex justify-center items-center p-4 w-full text-gray-600 bg-white rounded-lg border-2 border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-2 peer-checked:border-indigo-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
@@ -117,7 +120,7 @@
                                             </label>
                                         </li>
                                         <li>
-                                            <input type="checkbox" x-model="feild" name="feild[]" id="phone"
+                                            <input type="checkbox"  name="feild[]" @if(in_array('phone',$data->feild)) checked @endif id="phone"
                                                 value="phone" class="hidden peer">
                                             <label for="phone"
                                                 class="inline-flex justify-center items-center p-4 w-full text-gray-600 bg-white rounded-lg border-2 border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-2 peer-checked:border-indigo-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
@@ -134,7 +137,7 @@
                                             </label>
                                         </li>
                                         <li>
-                                            <input type="checkbox" x-model="feild" name="feild[]" id="email"
+                                            <input type="checkbox"  name="feild[]" @if(in_array('email',$data->feild)) checked @endif id="email"
                                                 value="email" class="hidden peer">
                                             <label for="email"
                                                 class="inline-flex justify-center items-center p-4 w-full text-gray-600 bg-white rounded-lg border-2 border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-2 peer-checked:border-indigo-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
@@ -151,7 +154,7 @@
                                             </label>
                                         </li>
                                         <li>
-                                            <input type="checkbox" x-model="feild" name="feild[]" id="name"
+                                            <input type="checkbox"  name="feild[]" @if(in_array('name',$data->feild)) checked @endif id="name"
                                                 value="name" class="hidden peer">
                                             <label for="name"
                                                 class="inline-flex justify-center items-center p-4 w-full text-gray-600 bg-white rounded-lg border-2 border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-2 peer-checked:border-indigo-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
@@ -168,7 +171,7 @@
                                             </label>
                                         </li>
                                         <li>
-                                            <input type="checkbox" x-model="feild" name="feild[]" id="checkbox"
+                                            <input type="checkbox"  name="feild[]" @if(in_array('checkbox',$data->feild)) checked @endif id="checkbox"
                                                 value="checkbox" class="hidden peer">
                                             <label for="checkbox"
                                                 class="inline-flex justify-center items-center p-4 w-full text-gray-600 bg-white rounded-lg border-2 border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-2 peer-checked:border-indigo-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
@@ -185,7 +188,7 @@
                                             </label>
                                         </li>
                                         <li>
-                                            <input type="checkbox" x-model="feild" name="feild[]" id="radio"
+                                            <input type="checkbox"  name="feild[]" @if(in_array('radio',$data->feild)) checked @endif id="radio"
                                                 value="radio" class="hidden peer">
                                             <label for="radio"
                                                 class="inline-flex justify-center items-center p-4 w-full text-gray-600 bg-white rounded-lg border-2 border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-2 peer-checked:border-indigo-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
@@ -201,7 +204,7 @@
                                             </label>
                                         </li>
                                         <li>
-                                            <input type="checkbox" x-model="feild" name="feild[]" id="number"
+                                            <input type="checkbox"  name="feild[]" @if(in_array('number',$data->feild)) checked @endif id="number"
                                                 value="number" class="hidden peer">
                                             <label for="number"
                                                 class="inline-flex justify-center items-center p-4 w-full text-gray-600 bg-white rounded-lg border-2 border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-2 peer-checked:border-indigo-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
@@ -218,7 +221,7 @@
                                             </label>
                                         </li>
                                         <li>
-                                            <input type="checkbox" x-model="feild" name="feild[]" id="textarea"
+                                            <input type="checkbox"  name="feild[]" @if(in_array('textarea',$data->feild)) checked @endif id="textarea"
                                                 value="textarea" class="hidden peer">
                                             <label for="textarea"
                                                 class="inline-flex justify-center items-center p-4 w-full text-gray-600 bg-white rounded-lg border-2 border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-2 peer-checked:border-indigo-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
@@ -235,7 +238,7 @@
                                             </label>
                                         </li>
                                         <li>
-                                            <input type="checkbox" x-model="feild" name="feild[]" id="input"
+                                            <input type="checkbox"  name="feild[]" @if(in_array('input',$data->feild)) checked @endif id="input"
                                                 value="input" class="hidden peer">
                                             <label for="input"
                                                 class="inline-flex justify-center items-center p-4 w-full text-gray-600 bg-white rounded-lg border-2 border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-2 peer-checked:border-indigo-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
@@ -252,7 +255,7 @@
                                             </label>
                                         </li>
                                         <li>
-                                            <input type="checkbox" x-model="feild" name="feild[]" id="fileupload"
+                                            <input type="checkbox"  name="feild[]" @if(in_array('fileupload',$data->feild)) checked @endif id="fileupload"
                                                 value="fileupload" class="hidden peer">
                                             <label for="fileupload"
                                                 class="inline-flex justify-center items-center p-4 w-full text-gray-600 bg-white rounded-lg border-2 border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-2 peer-checked:border-indigo-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
@@ -269,7 +272,7 @@
                                             </label>
                                         </li>
                                         <li>
-                                            <input type="checkbox" x-model="feild" name="feild[]" id="timepicker"
+                                            <input type="checkbox"  name="feild[]" @if(in_array('timepicker',$data->feild)) checked @endif id="timepicker"
                                                 value="timepicker" class="hidden peer">
                                             <label for="timepicker"
                                                 class="inline-flex justify-center items-center p-4 w-full text-gray-600 bg-white rounded-lg border-2 border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-2 peer-checked:border-indigo-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
@@ -285,7 +288,7 @@
                                             </label>
                                         </li>
                                         <li>
-                                            <input type="checkbox" x-model="feild" name="feild[]" id="datepicket"
+                                            <input type="checkbox"  name="feild[]" @if(in_array('datepicket',$data->feild)) checked @endif id="datepicket"
                                                 value="datepicket" class="hidden peer">
                                             <label for="datepicket"
                                                 class="inline-flex justify-center items-center p-4 w-full text-gray-600 bg-white rounded-lg border-2 border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-2 peer-checked:border-indigo-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
@@ -302,7 +305,7 @@
                                             </label>
                                         </li>
                                         <li>
-                                            <input type="checkbox" x-model="feild" name="feild[]" id="selectbox"
+                                            <input type="checkbox"  name="feild[]" @if(in_array('selectbox',$data->feild)) checked @endif id="selectbox"
                                                 value="selectbox" class="hidden peer">
                                             <label for="selectbox"
                                                 class="inline-flex justify-center items-center p-4 w-full text-gray-600 bg-white rounded-lg border-2 border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-2 peer-checked:border-indigo-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
@@ -317,7 +320,7 @@
                                             </label>
                                         </li>
                                         <li>
-                                            <input type="checkbox" x-model="feild" name="feild[]" id="hideenfeild"
+                                            <input type="checkbox"  name="feild[]" @if(in_array('hideenfeild',$data->feild)) checked @endif id="hideenfeild"
                                                 value="hideenfeild" class="hidden peer">
                                             <label for="hideenfeild"
                                                 class="inline-flex justify-center items-center p-4 w-full text-gray-600 bg-white rounded-lg border-2 border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-2 peer-checked:border-indigo-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
@@ -334,7 +337,7 @@
                                             </label>
                                         </li>
                                         <li>
-                                            <input type="checkbox" x-model="feild" name="feild[]" id="pagebreak"
+                                            <input type="checkbox"  name="feild[]" @if(in_array('pagebreak',$data->feild)) checked @endif id="pagebreak"
                                                 value="pagebreak" class="hidden peer">
                                             <label for="pagebreak"
                                                 class="inline-flex justify-center items-center p-4 w-full text-gray-600 bg-white rounded-lg border-2 border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-2 peer-checked:border-indigo-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
@@ -351,7 +354,7 @@
                                             </label>
                                         </li>
                                         <li>
-                                            <input type="checkbox" x-model="feild" name="feild[]" id="html"
+                                            <input type="checkbox"  name="feild[]" @if(in_array('html',$data->feild)) checked @endif id="html"
                                                 value="html" class="hidden peer">
                                             <label for="html"
                                                 class="inline-flex justify-center items-center p-4 w-full text-gray-600 bg-white rounded-lg border-2 border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-2 peer-checked:border-indigo-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
@@ -367,7 +370,7 @@
                                             </label>
                                         </li>
                                         <li>
-                                            <input type="checkbox" x-model="feild" name="feild[]" id="captcha"
+                                            <input type="checkbox"  name="feild[]" @if(in_array('captcha',$data->feild)) checked @endif id="captcha"
                                                 value="captcha" class="hidden peer">
                                             <label for="captcha"
                                                 class="inline-flex justify-center items-center p-4 w-full text-gray-600 bg-white rounded-lg border-2 border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-2 peer-checked:border-indigo-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
@@ -384,7 +387,7 @@
                                             </label>
                                         </li>
                                         <li>
-                                            <input type="checkbox" x-model="feild" name="feild[]" id="postdata"
+                                            <input type="checkbox"  name="feild[]" @if(in_array('postdata',$data->feild)) checked @endif id="postdata"
                                                 value="postdata" class="hidden peer">
                                             <label for="postdata"
                                                 class="inline-flex justify-center items-center p-4 w-full text-gray-600 bg-white rounded-lg border-2 border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-2 peer-checked:border-indigo-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">

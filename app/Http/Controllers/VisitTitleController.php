@@ -70,7 +70,10 @@ class VisitTitleController extends Controller
      */
     public function edit(VisitTitle $visitTitle)
     {
-        //
+        // dd($visitTitle);
+        return view('admin.visit_titles.edit', [
+            'data' => $visitTitle,
+        ]);
     }
 
     /**
@@ -82,7 +85,19 @@ class VisitTitleController extends Controller
      */
     public function update(Request $request, VisitTitle $visitTitle)
     {
-        //
+        $request->validate([
+            "title" => 'string|required',
+            "sort" => 'string|required',
+            "desc" => 'string',
+        ]);
+
+        $visitTitle->update([
+            'title' => $request->title,
+            'sort' => $request->sort,
+            'desc' => $request->desc,
+        ]);
+
+        return redirect(route('admin.visit-titles.index'))->with('success', 'اطلاعات با موفقیت ثبت شد');
     }
 
     /**
